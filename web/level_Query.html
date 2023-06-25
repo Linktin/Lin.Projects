@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>级联查询</title>
+    <script src="JQuery/jquery.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        $(function (){
+            $("#province").click(function (){
+                if ($("#province>option:selected").val() == '') {
+                    $("#province").empty()
+                    $.ajax({
+                        url:"/Level_Query/Controller/test",
+                        type:"GET",
+                        data:"",
+                       dataType: "json",
+                        success:function (jsonArr){
+                            for (var i = 0; i < jsonArr.length; i++) {
+                                $("#province").append("<option id='" + jsonArr[i].id + "' value='" + jsonArr[i].name + "'>" + jsonArr[i].name + "</option>");
+                            }
+
+                        }
+                    })
+                }
+            })
+            //当省份的option发生改变时，发送ajax请求
+            $("#province").change(function (){
+                $("#city").empty()
+                //获取该省份的属性值
+                //alert($("#province>option:selected").attr("id"))
+                $.ajax({
+                    url:"/Level_Query/Controller/cityQuery",
+                    type:"POST",
+                    data:{"provinceId": $("#province>option:selected").attr("id")},
+                    dataType:"json",
+                    //contentType:"application/json",
+                    success:function (jsonArr){
+                        for (var i = 0; i < jsonArr.length; i++) {
+                            $("#city").append("<option value='" + jsonArr[i].name + "'>" + jsonArr[i].name + "</option>")
+
+                        }
+                    }
+                })
+            })gi
+
+        })
+
+    </script>
+<select id="province" >
+    <option value="" >--请选择省份--</option>
+</select>
+<select id="city">
+    <option>--请选择城市--</option>
+</select>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IP勘测</title>
+    <script src="JQuery/jquery.js"></script>
+    <script type="text/javascript">
+        $(function (){
+            $("#btnId").click(function (){
+                $.ajax({
+                    url:"/Level_Query/Utils/ip",
+                    data:"t="+new Date().getTime(),
+                    success:function (JSON){
+                        $(".ip").append("您的IP地址为："+JSON)
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+    <input type="button" value="点击我获取IP" id="btnId">
+
+    <div class="ip">
+
+    </div>
+
+</body>
+</html>
